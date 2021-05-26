@@ -7,12 +7,12 @@
 
     <fragment
         android:id="@+id/main_list"
-        android:name="com.todo.android.main.MainListFragment"
+        android:name="com.todo.android.home.main.MainListFragment"
         android:label="@string/menu_main"
         tools:layout="@layout/fragment_main_list" />
     <fragment
         android:id="@+id/complete_list"
-        android:name="com.todo.android.main.CompleteListFragment"
+        android:name="com.todo.android.home.complete.CompleteListFragment"
         android:label="@string/menu_complete"
         tools:layout="@layout/fragment_complete_list"/>
 </navigation>
