@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.todo.android.databinding.DateContentBinding
 import com.todo.android.databinding.TodoContentBinding
 
-class TodoListAdapter(var mData: ArrayList<ListData>) :
+class TodoListAdapter(var mData: ArrayList<Item>) :
     RecyclerView.Adapter<TodoViewHolder>() {
 
     companion object {
@@ -19,9 +19,8 @@ class TodoListAdapter(var mData: ArrayList<ListData>) :
             TODO_CONTENT -> {
                 val binding =
                     TodoContentBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-                ViewHolderTodo(binding)
-            }
-            else -> {
+                ViewHolderContent(binding)
+            } else -> {
                 val binding =
                     DateContentBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 ViewHolderDate(binding)
@@ -37,18 +36,5 @@ class TodoListAdapter(var mData: ArrayList<ListData>) :
 
     override fun getItemViewType(position: Int): Int = mData[position].viewType
 
-    class ViewHolderTodo(binding: TodoContentBinding) : TodoViewHolder(binding.root) {
-        var title = binding.title
-        var checked = binding.completedBox
 
-        override fun bind(data: ListData) {
-        }
-    }
-    class ViewHolderDate(binding: DateContentBinding) : TodoViewHolder(binding.root) {
-        var date = binding.datetime
-
-        override fun bind(data: ListData) {
-
-        }
-    }
 }
