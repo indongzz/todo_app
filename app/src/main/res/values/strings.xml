@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Todo</string>
+    <string name="action_bar_main_list_add">추가</string>
+    <string name="action_bar_main_list_search">검색</string>
+    <string name="action_bar_main_list_sort">정렬</string>
+    <string name="menu_main">전체</string>
+    <string name="menu_complete">완료</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
