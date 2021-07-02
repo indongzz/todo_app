@@ -5,7 +5,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.todo.android.databinding.DateContentBinding
 import com.todo.android.databinding.TodoContentBinding
 import com.todo.android.datebase.Item
-import org.threeten.bp.LocalDateTime; // backport
+import org.threeten.bp.LocalDate
+import org.threeten.bp.format.DateTimeFormatter
+import org.threeten.bp.format.TextStyle
+import java.util.*
 
 abstract class TodoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     abstract fun bind(item: Item)
@@ -23,14 +26,17 @@ class ViewHolderContent(binding: TodoContentBinding) : TodoViewHolder(binding.ro
     }
 }
 class ViewHolderDate(binding: DateContentBinding) : TodoViewHolder(binding.root) {
-    var date = binding.datetime
+    var dateTime = binding.datetime
 
     override fun bind(item: Item) {
-        if (item is Item.Calender) {
-            /*date.text = item.getBestDateTimePattern(
-                Locale.getDefault(),
-                LocalDateTime.now().year == item.startTime.year
-            ).format(date)*/
+        if (item is Item.Calendar) {
+            val localDate = item.date
+            val dayOfWeekStr = " (" + localDate.dayOfWeek.getDisplayName(TextStyle.SHORT,
+                Locale.getDefault()) + ")"
+            val str = localDate.format(DateTimeFormatter.ofPattern(Item.getBestDateTimePattern(
+                isSameYear = LocalDate.now().year == localDate.year))) + dayOfWeekStr
+
+            dateTime.text = str
         }
     }
 }

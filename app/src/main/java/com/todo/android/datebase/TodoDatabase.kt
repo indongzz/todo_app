@@ -17,11 +17,12 @@ abstract class TodoDatabase : RoomDatabase() {
 
         fun getDatabase(context: Context): TodoDatabase {
             return INSTANCE ?: synchronized(this) {
-                INSTANCE ?: Room.databaseBuilder(
-                    context.applicationContext,
+                INSTANCE ?: Room.databaseBuilder(context.applicationContext,
                     TodoDatabase::class.java,
-                    "todo_database"
-                ).allowMainThreadQueries().build().also { INSTANCE = it }
+                    "todo_database")
+                    .fallbackToDestructiveMigration()
+                    // temp allow ui thread
+                    .allowMainThreadQueries().build().also { INSTANCE = it }
             }
         }
     }

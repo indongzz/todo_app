@@ -3,27 +3,25 @@ package com.todo.android.home.main
 import androidx.lifecycle.*
 import com.todo.android.TodoRepository
 import com.todo.android.datebase.Item
+import org.threeten.bp.LocalDate
 
 class MainListViewModel(private val repository: TodoRepository) : ViewModel() {
 
     var contentList: LiveData<List<Item.ContentEntity>> = repository.todoDao.findAll()
-    var resultList: LiveData<List<Item>> = Transformations.switchMap(contentList) {
-        combineContentAndDate(it, repository.todoDao.getBaseDateAll())
-    }
-
-    private fun combineContentAndDate(
-        contentList: List<Item.ContentEntity>?,
-        calenderList: List<Item.Calender>
-    ) : LiveData<List<Item>> {
+    var combineList: LiveData<List<Item>> = Transformations.switchMap(contentList) {
         val list = mutableListOf<Item>()
-        contentList?.let {
-            it.groupBy { entity -> entity.baseDate }.map { entry ->
-                calenderList.find { c -> c.date == entry.key }
-                    ?.let { calender -> list.add(calender) }
-                list.addAll(entry.value)
+        val now = LocalDate.now()
+        var isBeforeDateExist = false
+        it.groupBy { entity -> entity.baseDate }.map { entry ->
+            if (now.isBefore(entry.key) && !isBeforeDateExist) {
+                isBeforeDateExist = true
+                list.add(Item.Calendar(LocalDate.MIN))
+            } else if (!now.isBefore(entry.key)) {
+                list.add(Item.Calendar(entry.key))
             }
+            list.addAll(entry.value)
         }
-        return MutableLiveData(list.toList())
+        MutableLiveData(list.toList())
     }
 
     fun insert(content: Item.ContentEntity) {

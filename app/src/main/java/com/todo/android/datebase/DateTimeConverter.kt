@@ -2,14 +2,14 @@ package com.todo.android.datebase
 
 import androidx.room.TypeConverter
 import org.threeten.bp.LocalDate
-import org.threeten.bp.LocalDateTime
+import org.threeten.bp.LocalTime
 
 class DateTimeConverter {
     @TypeConverter
-    fun toDateTime(str: String?): LocalDateTime? = str?.let { LocalDateTime.parse(it) }
+    fun toDateTime(str: String?): LocalTime? = str?.let { LocalTime.parse(it) }
 
     @TypeConverter
-    fun toDateTimeString(date: LocalDateTime?): String = date.toString()
+    fun toDateTimeString(date: LocalTime?): String = date.toString()
 
     @TypeConverter
     fun toDate(str: String?): LocalDate? = str?.let { LocalDate.parse(it) }

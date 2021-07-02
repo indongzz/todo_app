@@ -15,9 +15,9 @@ interface TodoDao {
     @Query("DELETE FROM todolist")
     fun deleteAll()
 
-    @Query("SELECT * FROM todolist ORDER BY startTime")
+    @Query("SELECT * FROM todolist ORDER BY baseDate, time")
     fun findAll(): LiveData<List<Item.ContentEntity>>
 
     @Query("SELECT baseDate FROM todolist GROUP BY baseDate")
-    fun getBaseDateAll(): List<Item.Calender>
+    fun getBaseDateAll(): List<Item.Calendar>
 }
