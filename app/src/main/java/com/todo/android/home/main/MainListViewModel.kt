@@ -13,10 +13,10 @@ class MainListViewModel(private val repository: TodoRepository) : ViewModel() {
         val now = LocalDate.now()
         var isBeforeDateExist = false
         it.groupBy { entity -> entity.baseDate }.map { entry ->
-            if (now.isBefore(entry.key) && !isBeforeDateExist) {
+            if (now.isAfter(entry.key) && !isBeforeDateExist) {
                 isBeforeDateExist = true
                 list.add(Item.Calendar(LocalDate.MIN))
-            } else if (!now.isBefore(entry.key)) {
+            } else if (!now.isAfter(entry.key)) {
                 list.add(Item.Calendar(entry.key))
             }
             list.addAll(entry.value)

@@ -32,11 +32,11 @@ class MainListFragment : Fragment() {
         val recyclerView = binding.recyclerMain
         val adapter = TodoListAdapter()
         val layoutManager = LinearLayoutManager(activity)
-        val dividerItemDecoration = DividerItemDecoration(recyclerView.context, layoutManager.orientation)
+        //val dividerItemDecoration = DividerItemDecoration(recyclerView.context, layoutManager.orientation)
 
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter
-        recyclerView.addItemDecoration(dividerItemDecoration)
+        recyclerView.addItemDecoration(TodoListAdapter.DividerItemDecoration(recyclerView.context))
 
         viewModel.combineList.observe(viewLifecycleOwner) {
             adapter.submitList(it)
