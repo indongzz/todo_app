@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.todo.android.R
 import com.todo.android.databinding.DateContentBinding
 import com.todo.android.databinding.TodoContentBinding
-import com.todo.android.datebase.Item
+import com.todo.android.database.Item
 import kotlin.math.roundToInt
 
 class TodoListAdapter :

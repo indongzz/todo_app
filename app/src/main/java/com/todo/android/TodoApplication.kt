@@ -2,10 +2,7 @@ package com.todo.android
 
 import android.app.Application
 import com.jakewharton.threetenabp.AndroidThreeTen
-import com.todo.android.datebase.TodoDatabase
-import org.koin.android.ext.koin.androidContext
-import org.koin.android.ext.koin.androidLogger
-import org.koin.core.context.GlobalContext.startKoin
+import com.todo.android.database.TodoDatabase
 
 class TodoApplication : Application() {
     val database by lazy { TodoDatabase.getDatabase(this) }
@@ -13,13 +10,5 @@ class TodoApplication : Application() {
 
     init {
         AndroidThreeTen.init(this)
-    }
-
-    override fun onCreate() {
-        super.onCreate()
-        startKoin {
-            androidLogger()
-            androidContext(this@TodoApplication)
-        }
     }
 }

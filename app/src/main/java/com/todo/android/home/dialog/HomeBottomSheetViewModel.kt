@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.todo.android.TodoApplication
 import com.todo.android.TodoRepository
-import com.todo.android.datebase.Item
+import com.todo.android.database.Item
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalTime
 import org.threeten.bp.format.DateTimeFormatter

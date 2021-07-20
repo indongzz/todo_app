@@ -1,4 +1,4 @@
-package com.todo.android.datebase
+package com.todo.android.database
 
 import androidx.room.TypeConverter
 import org.threeten.bp.LocalDate

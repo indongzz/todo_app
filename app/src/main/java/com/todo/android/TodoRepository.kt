@@ -1,7 +1,7 @@
 package com.todo.android
 
-import com.todo.android.datebase.Item
-import com.todo.android.datebase.TodoDao
+import com.todo.android.database.Item
+import com.todo.android.database.TodoDao
 
 class TodoRepository(var todoDao: TodoDao) {
 

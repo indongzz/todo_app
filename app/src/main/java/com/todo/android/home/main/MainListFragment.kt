@@ -38,9 +38,9 @@ class MainListFragment : Fragment() {
         recyclerView.adapter = adapter
         recyclerView.addItemDecoration(TodoListAdapter.DividerItemDecoration(recyclerView.context))
 
-        viewModel.combineList.observe(viewLifecycleOwner) {
+        /*viewModel.combineList.observe(viewLifecycleOwner) {
             adapter.submitList(it)
-        }
+        }*/
 
         return binding.root
     }

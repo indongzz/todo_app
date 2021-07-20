@@ -2,7 +2,7 @@ package com.todo.android.home.main
 
 import androidx.lifecycle.*
 import com.todo.android.TodoRepository
-import com.todo.android.datebase.Item
+import com.todo.android.database.Item
 import org.threeten.bp.LocalDate
 
 class MainListViewModel(private val repository: TodoRepository) : ViewModel() {
