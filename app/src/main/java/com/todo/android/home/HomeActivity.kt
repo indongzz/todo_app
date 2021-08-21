@@ -1,16 +1,14 @@
 package com.todo.android.home
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.todo.android.R
 import com.todo.android.databinding.ActivityHomeBinding
 import com.todo.android.home.dialog.HomeBottomSheetFragment
@@ -57,7 +55,8 @@ class HomeActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
+        return when (item.itemId)
+        {
             R.id.toolbar_add -> {
                 val bottomSheetDialog = HomeBottomSheetFragment()
                 bottomSheetDialog.show(supportFragmentManager, "addBottomSheet")
