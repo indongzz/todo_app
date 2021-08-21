@@ -7,12 +7,17 @@
         <variable
             name="content"
             type="com.todo.android.database.Item.ContentEntity"/>
+
+        <variable
+            name="callback"
+            type="com.todo.android.home.OnItemCallback"/>
     </data>
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="10dp">
+    android:padding="10dp"
+    android:onClick="@{() -> callback.onClickedItem(content)}">
 
     <CheckBox
         android:id="@+id/completedBox"
@@ -20,9 +25,11 @@
         android:layout_height="25dp"
         android:button="@null"
         android:background="?android:attr/listChoiceIndicatorMultiple"
+        android:checked="@{content.check}"
         app:layout_constraintEnd_toStartOf="@+id/title"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:onClick="@{() -> callback.onClickedCheckBox(content)}"/>
 
     <TextView
         android:id="@+id/title"

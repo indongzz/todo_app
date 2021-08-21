@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -16,7 +17,7 @@ import com.todo.android.databinding.TodoContentBinding
 import com.todo.android.database.Item
 import kotlin.math.roundToInt
 
-class TodoListAdapter :
+class TodoListAdapter(val callback: OnItemCallback, val lifecycleOwner: LifecycleOwner) :
     ListAdapter<Item, TodoViewHolder>(COMPARATOR) {
 
     companion object {
@@ -39,11 +40,11 @@ class TodoListAdapter :
             TODO_CONTENT -> {
                 val binding =
                     TodoContentBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-                TodoViewHolder.ViewHolderContent(binding)
+                TodoViewHolder.ContentViewHolder(binding, callback, lifecycleOwner)
             } else -> {
                 val binding =
                     DateContentBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-                TodoViewHolder.ViewHolderDate(binding)
+                TodoViewHolder.DateViewHolder(binding)
             }
         }
     }
@@ -80,8 +81,8 @@ class TodoListAdapter :
                     val child = parent.getChildAt(i)
 
                     when (parent.getChildViewHolder(child)) {
-                        is TodoViewHolder.ViewHolderDate -> {}
-                        is TodoViewHolder.ViewHolderContent -> {
+                        is TodoViewHolder.DateViewHolder -> {}
+                        is TodoViewHolder.ContentViewHolder -> {
                             left += margin
                             right -= margin
                         }

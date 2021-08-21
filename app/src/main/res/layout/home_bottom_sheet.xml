@@ -35,8 +35,8 @@
                 android:id="@+id/chip_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="@{(view) -> viewModel.onDateChipClicked(view)}"
-                android:text="@{viewModel.liveDate}"
+                android:onClick="@{() -> viewModel.onDateChipClicked()}"
+                android:text="@{viewModel.dateString}"
                 app:chipBackgroundColor="@color/white"
                 app:chipStrokeColor="@color/black"
                 app:chipStrokeWidth="1dp" />
@@ -45,8 +45,8 @@
                 android:id="@+id/chip_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="@{(view) -> viewModel.onTimeChipClicked(view)}"
-                android:text="@{viewModel.liveTime}"
+                android:onClick="@{() -> viewModel.onTimeChipClicked()}"
+                android:text="@{viewModel.timeString}"
                 app:chipBackgroundColor="@color/white"
                 app:chipStrokeColor="@color/black"
                 app:chipStrokeWidth="1dp" />
@@ -57,7 +57,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Submit"
-            android:onClick="@{(view) -> viewModel.submit(view)}"
+            android:onClick="@{() -> viewModel.submit()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>

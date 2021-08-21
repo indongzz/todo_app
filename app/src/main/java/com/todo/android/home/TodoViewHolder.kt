@@ -3,21 +3,29 @@ package com.todo.android.home
 import android.view.View
 import androidx.core.view.setMargins
 import androidx.core.view.updateLayoutParams
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.todo.android.R
 import com.todo.android.databinding.DateContentBinding
 import com.todo.android.databinding.TodoContentBinding
 import com.todo.android.database.Item
 import org.threeten.bp.LocalDate
-import org.threeten.bp.format.DateTimeFormatter
-import org.threeten.bp.format.TextStyle
 import java.util.*
 
 sealed class TodoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     abstract fun bind(item: Item, isFirst: Boolean)
 
-    class ViewHolderContent(val binding: TodoContentBinding) : TodoViewHolder(binding.root) {
+    class ContentViewHolder(
+        val binding: TodoContentBinding,
+        callback: OnItemCallback,
+        lifecycleOwner: LifecycleOwner,
+    ) : TodoViewHolder(binding.root) {
         var checked = binding.completedBox
+
+        init {
+            binding.callback = callback
+            binding.lifecycleOwner = lifecycleOwner
+        }
 
         override fun bind(item: Item, isFirst: Boolean) {
             if (item is Item.ContentEntity) {
@@ -26,7 +34,7 @@ sealed class TodoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) 
         }
     }
 
-    class ViewHolderDate(val binding: DateContentBinding) : TodoViewHolder(binding.root) {
+    class DateViewHolder(val binding: DateContentBinding) : TodoViewHolder(binding.root) {
         val now: LocalDate = LocalDate.now()
         val dateTime = binding.datetime
 

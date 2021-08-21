@@ -6,17 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.todo.android.TodoApplication
 import com.todo.android.databinding.FragmentMainListBinding
 import com.todo.android.home.TodoListAdapter
+import com.todo.android.home.dialog.HomeBottomSheetFragment
 
 class MainListFragment : Fragment() {
     var _binding: FragmentMainListBinding? = null
     val binding: FragmentMainListBinding get() = _binding!!
-    private val viewModel: MainListViewModel by viewModels {
-        MainListViewModel.Factory((requireActivity().application as TodoApplication).repository)
+    private val viewModel: MainViewModel by viewModels {
+        MainViewModel.Factory((requireActivity().application as TodoApplication).repository)
     }
 
     override fun onCreateView(
@@ -27,10 +27,18 @@ class MainListFragment : Fragment() {
         _binding = FragmentMainListBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
+        viewModel.onClickedItem.observe(viewLifecycleOwner, {
+            val bottomSheetDialog = HomeBottomSheetFragment()
+            val args = Bundle()
+            args.putSerializable("item", it)
+            bottomSheetDialog.arguments = args
+
+            bottomSheetDialog.show(parentFragmentManager, "addBottomSheet")
+        })
 
         // setup recyclerview
         val recyclerView = binding.recyclerMain
-        val adapter = TodoListAdapter()
+        val adapter = TodoListAdapter(viewModel, viewLifecycleOwner)
         val layoutManager = LinearLayoutManager(activity)
         //val dividerItemDecoration = DividerItemDecoration(recyclerView.context, layoutManager.orientation)
 

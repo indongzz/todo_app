@@ -1,13 +1,12 @@
 package com.todo.android.home.dialog
 
-import android.app.DatePickerDialog
-import android.app.TimePickerDialog
 import android.content.Context
 import android.view.View
-import androidx.fragment.app.findFragment
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.todo.android.SingleLiveEvent
 import com.todo.android.TodoApplication
 import com.todo.android.TodoRepository
 import com.todo.android.database.Item
@@ -16,44 +15,52 @@ import org.threeten.bp.LocalTime
 import org.threeten.bp.format.DateTimeFormatter
 
 class HomeBottomSheetViewModel(
-    val timeFormatter: String,
-    val repository: TodoRepository
+    private val timeFormatter: String,
+    private val repository: TodoRepository
 ) : ViewModel() {
+    var chipDate = MutableLiveData(LocalDate.now())
+    var chipTime = MutableLiveData(LocalTime.now())
 
-    var localDate: LocalDate = LocalDate.now()
-    var localTime: LocalTime = LocalTime.now()
-    var liveDate =
-        MutableLiveData(localDate.format(DateTimeFormatter.ofPattern(Item.getBestDateTimePattern())))
-    var liveTime =
-        MutableLiveData(localTime.format(DateTimeFormatter.ofPattern(timeFormatter)))
+    var dateString = Transformations.map(chipDate) {
+        it ?: LocalDate.now()
+        it.format(DateTimeFormatter.ofPattern(Item.getBestDateTimePattern(isSameYear = it.year == LocalDate.now().year)))
+    }
+    var timeString = Transformations.map(chipTime) {
+        it ?: LocalTime.now()
+        it.format(DateTimeFormatter.ofPattern(timeFormatter))
+    }
 
     // for two-way
     val title = MutableLiveData<String>()
 
-    fun onDateChipClicked(v: View) = DatePickerDialog(v.context, { _, year, month, dayOfMonth ->
-        val pattern = Item.getBestDateTimePattern(isSameYear = LocalDate.now().year == year)
+    // for submit event observer
+    // TODO : using eventWrapper?
+    val event: SingleLiveEvent<Int> = SingleLiveEvent()
 
-        LocalDate.of(year, month + 1, dayOfMonth).also { localDate = it }
-            .format(DateTimeFormatter.ofPattern(pattern))
-            .also { liveDate.value = it }
-    }, localDate.year, localDate.monthValue - 1, localDate.dayOfMonth).show()
+    companion object {
+        const val TIME_CHIP_CLICKED = 1
+        const val DATE_CHIP_CLICKED = 2
+        const val SUBMIT_CLICKED = 3
+    }
 
-    fun onTimeChipClicked(v: View) = TimePickerDialog(v.context, { _, hour, min ->
-        LocalTime.of(hour, min).also { localTime = it }
-            .format(DateTimeFormatter.ofPattern(timeFormatter))
-            .also { liveTime.value = it }
-    }, localTime.hour, localTime.minute, false).show()
+    fun onTimeChipClicked() {
+        event.value = TIME_CHIP_CLICKED
+    }
 
-    fun submit(v: View) {
+    fun onDateChipClicked() {
+        event.value = DATE_CHIP_CLICKED
+    }
+
+    fun submit() {
         repository.insert(
             Item.ContentEntity(
                 check = false,
                 title = title.value ?: "null",
-                baseDate = localDate,
-                time = localTime
+                baseDate = chipDate.value ?: LocalDate.now(),
+                time = chipTime.value ?: LocalTime.now()
             )
         )
-        v.findFragment<HomeBottomSheetFragment>().dismissAllowingStateLoss()
+        event.value = SUBMIT_CLICKED
     }
 
     class Factory(context: Context) : ViewModelProvider.Factory {
