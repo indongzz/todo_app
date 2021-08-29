@@ -1,2 +1,4 @@
-include ':app'
+include ':presentation'
 rootProject.name = "Todo"
+include ':data'
+include ':domain'
